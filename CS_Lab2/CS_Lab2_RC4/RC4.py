@@ -20,7 +20,6 @@ class RC4():
             j = (self.S[i] + j) % 256
             self.S[[i, j]] = self.S[[j, i]]
 
-            # After reaching S[255] the process continues, starting from S[0] again
             yield self.S[(self.S[i] + self.S[j]) % 256]
 
     def encrypt(self, message):
@@ -45,11 +44,11 @@ class RC4():
         # converting the message from hex to decimal
         encoded = message.split('0x')[1:]
         encoded = [int('0x' + c.lower(), 0) for c in encoded]
-
         # Converting chars to ascii
         key = self.key
 
         # calling the key scheduling algorithm
+        self.S = np.arange(0, 256)
         self.key_scheduling()
 
         # Stream Generation
