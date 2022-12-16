@@ -94,12 +94,7 @@ class MyServer(BaseHTTPRequestHandler):
         data = json.loads(self.rfile.read(content_length).decode())
 
         key = base64.b32encode(bytearray(data["username"], 'ascii')).decode('utf-8')
-        # uri = pyotp.totp.TOTP(key).provisioning_uri(name=data["username"], issuer_name="Răzvan's Service")
         totp_object = pyotp.TOTP(key)
-
-        # t = time.localtime()
-        # current_time = time.strftime("%H_%M_%S_%b_%Y", t)
-        # qrcode.make(uri).save("qr_code" + current_time + ".png")
 
         username, password, role = data["username"], data["password"], "user"
         if not db.is_username_in_db(data["username"]) and totp_object.verify(data["otp"]):

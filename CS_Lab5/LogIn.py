@@ -29,8 +29,10 @@ class LogIn():
         otp = input("Please insert One Time Password: ")
         r = requests.get(address + "/login", json={"username": username, "password": self.password, "otp": otp})
         print(r.content)
-        self.sess_id = r.headers["Set-Cookie"]
-
+        try:
+            self.sess_id = r.headers["Set-Cookie"]
+        except (KeyError):
+            pass
         # print(self.sess_id)
 
     def register(self, username, password):
@@ -50,5 +52,8 @@ class LogIn():
         otp = input("Please scan QR Code using any Authentificator app and insert One Time Password: ")
         r = requests.get(address + "/register", json={"username": username, "password": self.password, "otp": otp})
         print(r.content)
+
+    # def request_caesar(self):
+
 
 
